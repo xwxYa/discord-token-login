@@ -70,7 +70,7 @@ The only outbound request is to `discord.com/api/v10/users/@me`, and only when y
 Discord invalidates a token when you log out normally. Log out by clearing storage & cookies, or use incognito.
 
 **Do I have to build it myself?**
-No. Grab the zip from [Releases](https://github.com/USERNAME/REPO/releases), unzip it, then load the folder from `chrome://extensions` → **Developer mode** → **Load unpacked**.
+No. Grab the zip from [Releases](https://github.com/xwxYa/discord-token-login/releases), unzip it, then load the folder from `chrome://extensions` → **Developer mode** → **Load unpacked**.
 
 ---
 
