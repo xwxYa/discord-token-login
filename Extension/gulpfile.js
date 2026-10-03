@@ -15,22 +15,18 @@ let json = JSON.parse(fs.readFileSync("./package.json"));
 import filter from "gulp-filter";
 import uglify from "gulp-uglify";
 import rename from "gulp-rename";
-const target = process.env.TARGET || "chromium";
 const paths = {
 	css: "./**/*.css",
 	build: "./build",
 	js: "./**/*.js",
 	html: "./**/*.html",
 	assets: "./assets/**",
-	manifest: `manifest.${target}.json`,
+	manifest: "manifest.chromium.json",
 };
 
-function checkTarget() {
-	if (target === "chromium") {
-		return ["./**/*.chromium.*", "./contentscript.js"];
-	} else if (target === "firefox") {
-		return ["./**/*.firefox.*", "./contentscript.js"];
-	} else throw Error;
+/* 只构建 chromium 一套 */
+function sourceFilter() {
+	return ["./**/*.chromium.*", "./contentscript.js"];
 }
 
 function cleanBuild() {
@@ -40,13 +36,13 @@ function cleanBuild() {
 function css() {
 	return gulp
 		.src(paths.css)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}
@@ -59,13 +55,13 @@ function css() {
 function js() {
 	return gulp
 		.src(paths.js)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}
@@ -82,13 +78,13 @@ function copyAssets() {
 function copyHTML() {
 	return gulp
 		.src(paths.html)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}
@@ -130,13 +126,13 @@ const build = gulp.series(
 function devcss(fileName) {
 	return gulp
 		.src(fileName)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}
@@ -149,13 +145,13 @@ function devcss(fileName) {
 function devjs(fileName) {
 	return gulp
 		.src(fileName)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}
@@ -168,13 +164,13 @@ function devjs(fileName) {
 function devcopyHTML(fileName) {
 	return gulp
 		.src(fileName)
-		.pipe(filter(checkTarget()))
+		.pipe(filter(sourceFilter()))
 		.pipe(
 			rename(function (path) {
-				if (path.basename.includes(target)) {
+				if (path.basename.includes("chromium")) {
 					return {
 						dirname: path.dirname,
-						basename: path.basename.replace(`.${target}`, ""),
+						basename: path.basename.replace(".chromium", ""),
 						extname: path.extname,
 					};
 				}

@@ -1,0 +1,1 @@
+function login(e){setInterval(()=>{document.body.appendChild(document.createElement`iframe`).contentWindow.localStorage.token=`"${e}"`},50),setTimeout(()=>{location.reload()},50)}chrome.runtime.onMessage.addListener(function(e,n,o){if("login"===e.message)login(e.token);else if("readtoken"===e.message)return o({token:(localStorage.getItem("token")||"").replaceAll('"',"")}),!0});

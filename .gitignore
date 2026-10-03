@@ -1,7 +1,8 @@
 Extension/node_modules/
-Extension/build
 Extension/dist
-Extension/package-lock.json
 Extension/pnpm-lock.yaml
-Script/node_modules
-Script/pnpm-lock.yaml
+
+# 打包产物 + 签名私钥 —— 绝不提交
+# 私钥泄露 = 任何人都能冒充你签名发布这个扩展
+release/
+*.pem
